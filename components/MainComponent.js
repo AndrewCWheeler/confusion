@@ -271,7 +271,7 @@ const MainNavigator = createDrawerNavigator(
     contentComponent: CustomDrawerContentComponent
   }
 );
-
+git;
 class Main extends Component {
   componentDidMount() {
     this.props.fetchDishes();

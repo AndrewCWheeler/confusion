@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { View, FlatList, Text } from "react-native";
 import { Tile } from "react-native-elements";
 import { connect } from "react-redux";

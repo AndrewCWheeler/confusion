@@ -27,6 +27,7 @@ import {
   fetchLeaders
 } from "../redux/ActionCreators";
 import Reservation from "./ReservationComponent";
+import Favorites from "./FavoriteComponent";
 
 const mapStateToProps = state => {
   return {
@@ -46,24 +47,20 @@ const mapDispatchToProps = dispatch => ({
 
 const MenuNavigator = createStackNavigator(
   {
-    Menu: {
-      screen: Menu,
-      navigationOptions: ({ navigation }) => ({
-        headerLeft: (
-          <Icon
-            name="menu"
-            size={24}
-            color="white"
-            onPress={() => navigation.toggleDrawer()}
-          />
-        )
-      })
-    },
+    Menu,
     DishDetail: { screen: DishDetail }
   },
   {
     initialRouteName: "Menu",
-    navigationOptions: {
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <Icon
+          name="menu"
+          size={24}
+          color="white"
+          onPress={() => navigation.toggleDrawer()}
+        />
+      ),
       headerStyle: {
         backgroundColor: "#512DA8"
       },
@@ -71,7 +68,7 @@ const MenuNavigator = createStackNavigator(
       headerTitleStyle: {
         color: "#fff"
       }
-    }
+    })
   }
 );
 
@@ -81,13 +78,6 @@ const HomeNavigator = createStackNavigator(
   },
   {
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        backgroundColor: "#512DA8"
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff"
-      },
       headerLeft: (
         <Icon
           name="menu"
@@ -95,7 +85,14 @@ const HomeNavigator = createStackNavigator(
           color="white"
           onPress={() => navigation.toggleDrawer()}
         />
-      )
+      ),
+      headerStyle: {
+        backgroundColor: "#512DA8"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff"
+      }
     })
   }
 );
@@ -106,13 +103,6 @@ const AboutNavigator = createStackNavigator(
   },
   {
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        backgroundColor: "#512DA8"
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff"
-      },
       headerLeft: (
         <Icon
           name="menu"
@@ -120,7 +110,14 @@ const AboutNavigator = createStackNavigator(
           color="white"
           onPress={() => navigation.toggleDrawer()}
         />
-      )
+      ),
+      headerStyle: {
+        backgroundColor: "#512DA8"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff"
+      }
     })
   }
 );
@@ -131,13 +128,6 @@ const ContactNavigator = createStackNavigator(
   },
   {
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        backgroundColor: "512DA8"
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        color: "#fff"
-      },
       headerLeft: (
         <Icon
           name="menu"
@@ -145,7 +135,14 @@ const ContactNavigator = createStackNavigator(
           color="white"
           onPress={() => navigation.toggleDrawer()}
         />
-      )
+      ),
+      headerStyle: {
+        backgroundColor: "512DA8"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff"
+      }
     })
   }
 );
@@ -153,14 +150,14 @@ const ContactNavigator = createStackNavigator(
 const CustomDrawerContentComponent = props => (
   <ScrollView>
     <SafeAreaView
-      style={StyleSheet.container}
+      style={styles.container}
       forceInset={{ top: "always", horizontal: "never" }}
     >
-      <View style={StyleSheet.drawerHeader}>
+      <View style={styles.drawerHeader}>
         <View style={{ flex: 1 }}>
           <Image
             source={require("./images/logo.png")}
-            style={StyleSheet.drawerImage}
+            style={styles.drawerImage}
           />
         </View>
         <View style={{ flex: 2 }}>
@@ -178,13 +175,6 @@ const ReservationNavigator = createStackNavigator(
   },
   {
     navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        backgroundColor: "#512DA8"
-      },
-      headerTitleStyle: {
-        color: "#fff"
-      },
-      headerTintColor: "#fff",
       headerLeft: (
         <Icon
           name="menu"
@@ -192,7 +182,39 @@ const ReservationNavigator = createStackNavigator(
           color="white"
           onPress={() => navigation.toggleDrawer()}
         />
-      )
+      ),
+      headerStyle: {
+        backgroundColor: "#512DA8"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff"
+      }
+    })
+  }
+);
+
+const FavoritesNavigator = createStackNavigator(
+  {
+    Favorites: { screen: Favorites }
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <Icon
+          name="menu"
+          size={24}
+          color="white"
+          onPress={() => navigation.toggleDrawer()}
+        />
+      ),
+      headerStyle: {
+        backgroundColor: "#512DA8"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff"
+      }
     })
   }
 );
@@ -204,7 +226,7 @@ const MainNavigator = createDrawerNavigator(
       navigationOptions: {
         title: "Home",
         drawerLabel: "Home",
-        drawerIcon: ({ tintColor }) => (
+        drawerIcon: ({ tintColor, focused }) => (
           <Icon name="home" type="font-awesome" size={24} color={tintColor} />
         )
       }
@@ -214,7 +236,7 @@ const MainNavigator = createDrawerNavigator(
       navigationOptions: {
         title: "About Us",
         drawerLabel: "About Us",
-        drawerIcon: ({ tintColor }) => (
+        drawerIcon: ({ tintColor, focused }) => (
           <Icon
             name="info-circle"
             type="font-awesome"
@@ -230,7 +252,7 @@ const MainNavigator = createDrawerNavigator(
         title: "Menu",
         drawerLabel: "Menu",
         drawerIcon: ({ tintColor }) => (
-          <Icon name="list" type="font-awesome" size={24} color={tintColor} />
+          <Icon name="list" color={tintColor} type="font-awesome" size={24} />
         )
       }
     },
@@ -240,7 +262,7 @@ const MainNavigator = createDrawerNavigator(
       navigationOptions: {
         title: "Contact Us",
         drawerLabel: "Contact Us",
-        drawerIcon: ({ tintColor }) => (
+        drawerIcon: ({ tintColor, focused }) => (
           <Icon
             name="address-card"
             type="font-awesome"
@@ -259,9 +281,19 @@ const MainNavigator = createDrawerNavigator(
           <Icon
             name="cutlery"
             type="font-awesome"
-            size={24}
+            size={22}
             color={tintColor}
           />
+        )
+      }
+    },
+    Favorites: {
+      screen: FavoritesNavigator,
+      navigationOptions: {
+        title: "My Favorites",
+        drawerLabel: "My Favorites",
+        drawerIcon: ({ tintColor, focused }) => (
+          <Icon name="heart" type="font-awesome" size={24} color={tintColor} />
         )
       }
     }

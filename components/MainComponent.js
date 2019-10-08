@@ -4,6 +4,7 @@ import Menu from "./MenuComponent";
 import Contact from "./ContactComponent";
 import About from "./AboutComponent";
 import DishDetail from "./DishdetailComponent";
+import Favorite from "./FavoriteComponent";
 import {
   View,
   Platform,
@@ -20,14 +21,8 @@ import {
 } from "react-navigation";
 import { Icon } from "react-native-elements";
 import { connect } from "react-redux";
-import {
-  fetchDishes,
-  fetchComments,
-  fetchPromos,
-  fetchLeaders
-} from "../redux/ActionCreators";
+import * as ActionCreators from "../redux/ActionCreators";
 import Reservation from "./ReservationComponent";
-import Favorites from "./FavoriteComponent";
 
 const mapStateToProps = state => {
   return {
@@ -37,13 +32,6 @@ const mapStateToProps = state => {
     leaders: state.leaders
   };
 };
-
-const mapDispatchToProps = dispatch => ({
-  fetchDishes: () => dispatch(fetchDishes()),
-  fetchComments: () => dispatch(fetchComments()),
-  fetchPromos: () => dispatch(fetchPromos()),
-  fetchLeaders: () => dispatch(fetchLeaders())
-});
 
 const MenuNavigator = createStackNavigator(
   {
@@ -194,9 +182,9 @@ const ReservationNavigator = createStackNavigator(
   }
 );
 
-const FavoritesNavigator = createStackNavigator(
+const FavoriteNavigator = createStackNavigator(
   {
-    Favorites: { screen: Favorites }
+    Favorite: { screen: Favorite }
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -287,13 +275,13 @@ const MainNavigator = createDrawerNavigator(
         )
       }
     },
-    Favorites: {
-      screen: FavoritesNavigator,
+    Favorite: {
+      screen: FavoriteNavigator,
       navigationOptions: {
-        title: "My Favorites",
-        drawerLabel: "My Favorites",
+        title: "Favorites",
+        drawerLabel: "Favorites",
         drawerIcon: ({ tintColor, focused }) => (
-          <Icon name="heart" type="font-awesome" size={24} color={tintColor} />
+          <Icon name="heart" type="font-awesome" size={22} color={tintColor} />
         )
       }
     }
@@ -349,7 +337,14 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapDispatchToProps = dispatch => ({
+  fetchDishes: () => dispatch(ActionCreators.fetchDishes()),
+  fetchComments: () => dispatch(ActionCreators.fetchComments()),
+  fetchPromos: () => dispatch(ActionCreators.fetchPromos()),
+  fetchLeaders: () => dispatch(ActionCreators.fetchLeaders())
+});
+
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Main);

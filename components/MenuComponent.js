@@ -17,7 +17,9 @@ class Menu extends Component {
         title={item.name}
         subtitle={item.description}
         featured
-        onPress={() => this.props.navigate("DishDetail", { dish: item })}
+        onPress={() =>
+          this.props.navigation.navigate("DishDetail", { dish: item })
+        }
         imageSrc={{ uri: baseUrl + item.image }}
       />
     );

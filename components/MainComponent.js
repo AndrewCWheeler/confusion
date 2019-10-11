@@ -8,10 +8,10 @@ import Favorite from "./FavoriteComponent";
 import {
   View,
   Platform,
-  Image,
-  StyleSheet,
   ScrollView,
-  Text
+  Text,
+  StyleSheet,
+  Image
 } from "react-native";
 import {
   createStackNavigator,
@@ -23,15 +23,6 @@ import { Icon } from "react-native-elements";
 import { connect } from "react-redux";
 import * as ActionCreators from "../redux/ActionCreators";
 import Reservation from "./ReservationComponent";
-
-const mapStateToProps = state => {
-  return {
-    dishes: state.dishes,
-    comments: state.comments,
-    promotions: state.promotions,
-    leaders: state.leaders
-  };
-};
 
 const MenuNavigator = createStackNavigator(
   {
@@ -125,7 +116,7 @@ const ContactNavigator = createStackNavigator(
         />
       ),
       headerStyle: {
-        backgroundColor: "512DA8"
+        backgroundColor: "#512DA8"
       },
       headerTintColor: "#fff",
       headerTitleStyle: {
@@ -133,28 +124,6 @@ const ContactNavigator = createStackNavigator(
       }
     })
   }
-);
-
-const CustomDrawerContentComponent = props => (
-  <ScrollView>
-    <SafeAreaView
-      style={styles.container}
-      forceInset={{ top: "always", horizontal: "never" }}
-    >
-      <View style={styles.drawerHeader}>
-        <View style={{ flex: 1 }}>
-          <Image
-            source={require("./images/logo.png")}
-            style={styles.drawerImage}
-          />
-        </View>
-        <View style={{ flex: 2 }}>
-          <Text style={styles.drawerHeaderText}>Ristorante Con Fusion</Text>
-        </View>
-      </View>
-      <DrawerItems {...props} />
-    </SafeAreaView>
-  </ScrollView>
 );
 
 const ReservationNavigator = createStackNavigator(
@@ -207,6 +176,53 @@ const FavoriteNavigator = createStackNavigator(
   }
 );
 
+/* const LoginNavigator = createStackNavigator(
+  {
+    Login: { screen: Login }
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: (
+        <Icon
+          name="menu"
+          size={24}
+          color="white"
+          onPress={() => navigation.toggleDrawer()}
+        />
+      ),
+      headerStyle: {
+        backgroundColor: "#512DA8"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff"
+      }
+    })
+  }
+); */
+
+const CustomDrawerContentComponent = props => (
+  <ScrollView>
+    <SafeAreaView
+      style={styles.container}
+      forceInset={{ top: "always", horizontal: "never" }}
+    >
+      <View style={styles.drawerHeader}>
+        <View style={{ flex: 1 }}>
+          <Image
+            source={require("./images/logo.png")}
+            style={styles.drawerImage}
+          />
+        </View>
+        <View style={{ flex: 2 }}>
+          <Text style={styles.drawerHeaderText}>Ristorante Con Fusion</Text>
+        </View>
+      </View>
+      <DrawerItems {...props} />
+    </SafeAreaView>
+  </ScrollView>
+);
+
 const MainNavigator = createDrawerNavigator(
   {
     Home: {
@@ -244,7 +260,6 @@ const MainNavigator = createDrawerNavigator(
         )
       }
     },
-
     Contact: {
       screen: ContactNavigator,
       navigationOptions: {
@@ -263,8 +278,8 @@ const MainNavigator = createDrawerNavigator(
     Reservation: {
       screen: ReservationNavigator,
       navigationOptions: {
-        title: "Reserve Table",
-        drawerLabel: "Reserve Table",
+        title: "Reserve table",
+        drawerLabel: "Reserve table",
         drawerIcon: ({ tintColor, focused }) => (
           <Icon
             name="cutlery"
@@ -285,18 +300,29 @@ const MainNavigator = createDrawerNavigator(
         )
       }
     }
+    /* Login: {
+      screen: LoginNavigator,
+      navigationOptions: {
+        title: "Login",
+        drawerLabel: "Login",
+        drawerIcon: ({ tintColor, focused }) => (
+          <Icon name="key" type="font-awesome" size={22} color={tintColor} />
+        )
+      }
+    } */
   },
   {
     drawerBackgroundColor: "#D1C4E9",
     contentComponent: CustomDrawerContentComponent
   }
 );
+
 class Main extends Component {
   componentDidMount() {
-    this.props.fetchDishes();
     this.props.fetchComments();
-    this.props.fetchPromos();
+    this.props.fetchDishes();
     this.props.fetchLeaders();
+    this.props.fetchPromos();
   }
 
   render() {
@@ -304,7 +330,7 @@ class Main extends Component {
       <View
         style={{
           flex: 1,
-          paddingTop: Platform.OS === "ios" ? 0 : Expo.Constants.statusBarHeight
+          paddingTop: 20
         }}
       >
         <MainNavigator />
@@ -339,9 +365,9 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => ({
   fetchDishes: () => dispatch(ActionCreators.fetchDishes()),
+  fetchLeaders: () => dispatch(ActionCreators.fetchLeaders()),
   fetchComments: () => dispatch(ActionCreators.fetchComments()),
-  fetchPromos: () => dispatch(ActionCreators.fetchPromos()),
-  fetchLeaders: () => dispatch(ActionCreators.fetchLeaders())
+  fetchPromos: () => dispatch(ActionCreators.fetchPromos())
 });
 
 export default connect(

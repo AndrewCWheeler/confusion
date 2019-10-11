@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Flatlist, View, Text, Alert } from "react-native";
+import { FlatList, View, Text, Alert } from "react-native";
 import { ListItem } from "react-native-elements";
 import { connect } from "react-redux";
 import { Loading } from "./LoadingComponent";
@@ -77,7 +77,7 @@ class Favorites extends Component {
       );
     } else {
       return (
-        <Flatlist
+        <FlatList
           data={this.props.dishes.dishes.filter(dish =>
             this.props.favorites.some(el => el === dish.id)
           )}

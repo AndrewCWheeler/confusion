@@ -10,6 +10,9 @@ import {
   Modal
 } from "react-native";
 import DatePicker from "react-native-datepicker";
+import * as Animatable from "react-native-animatable";
+import * as Permissions from "expo-permissions";
+import { Notifications } from "expo";
 
 class Reservation extends Component {
   constructor(props) {
@@ -44,14 +47,34 @@ class Reservation extends Component {
     });
   }
 
-  resetForm = () => {
-    this.setState({
-      guests: 1,
-      smoking: false,
-      date: "",
-      showModal: false
+  async obtainNotificationsPermission() {
+    let permission = await Permissions.getAsync(
+      Permissions.USER_FACING_NOTIFCATIONS
+    );
+    if (permission.status !== "granted") {
+      permission = await Permissions.askAsync(
+        Permissions.USER_FACING_NOTIFCATIONS
+      );
+      if (permission.status !== "granted") {
+        alert.alert("Permission not granted to show notifications");
+      }
+    }
+    return permission;
+  }
+
+  async presentLocalNotification(date) {
+    await this.obtainNotificationsPermission();
+    Notifications.presentLocalNotificationAsync({
+      title: "Your Reservation",
+      body: "Reservation for " + date + " requested",
+      ios: {
+        sound: true
+      },
+      sound: true,
+      vibrate: true,
+      color: "#512DA8"
     });
-  };
+  }
 
   render() {
     return (
@@ -78,6 +101,7 @@ class Reservation extends Component {
             <Button
               onPress={() => {
                 this.toggleModal();
+                this.presentLocalNotification(this.state.date);
                 this.resetForm();
               }}
               color="#512DA8"

@@ -128,7 +128,7 @@ class RegisterTab extends Component {
       lastname: "",
       email: "",
       remember: false,
-      imageUrl: baseUrl + "image/logo.png"
+      imageUrl: baseUrl + "images/logo.png"
     };
   }
 
@@ -149,6 +149,24 @@ class RegisterTab extends Component {
 
       if (!capturedImage.cancelled) {
         this.processImage(capturedImage.uri);
+      }
+    }
+  };
+
+  getImageFromGallery = async () => {
+    const cameraRollPermission = await Permissions.askAsync(
+      Permissions.CAMERA_ROLL
+    );
+
+    if (cameraRollPermission.status === "granted") {
+      let photoLibrary = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: "Images",
+        allowsEditing: true,
+        aspect: [4, 3]
+      });
+
+      if (!photoLibrary.cancelled) {
+        this.processImage(photoLibrary.uri);
       }
     }
   };
@@ -198,6 +216,7 @@ class RegisterTab extends Component {
               style={styles.image}
             />
             <Button title="Camera" onPress={this.getImageFromCamera} />
+            <Button title="Gallery" onPress={this.getImageFromGallery} />
           </View>
           <Input
             placeholder="Username"
@@ -283,12 +302,13 @@ const styles = StyleSheet.create({
     margin: 20
   },
   imageContainer: {
-    flex: 1,
+    flex: 10,
+    justifyContent: "space-around",
     flexDirection: "row",
     margin: 20
   },
   image: {
-    margin: 10,
+    margin: 1,
     width: 80,
     height: 60
   },
